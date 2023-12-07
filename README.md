@@ -32,14 +32,14 @@ To customize the behavior of the simulation and RBM training, you can edit the f
 
 
 # For example:
-number_of_epochs = 4
-initial_alpha = 1
-alpha_ratio = 2
-N_repeats = 1
-m_visible = 6
-n_hidden = 6
-batch_size = 200
-steps_per_epoch = 3*10**3
+- `number_of_epochs` = 4
+- `initial_alpha` = 1
+- `alpha_ratio` = 2
+- `N_repeats` = 1
+- `m_visible` = 6
+- `n_hidden` = 6
+- `batch_size` = 200
+- `steps_per_epoch` = 3*10**3
 
 
 

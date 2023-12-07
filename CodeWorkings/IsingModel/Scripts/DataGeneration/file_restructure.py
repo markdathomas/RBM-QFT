@@ -3,64 +3,80 @@ import os
 from datetime import datetime
 
 def date_file(file_name):
-    """Puts the data on the front of the folder and title after"""
+    """
+    Prepends the current date to a given file name.
+
+    Parameters:
+    - file_name (str): The name of the file.
+
+    Returns:
+    - str: A string containing the current date followed by the file name.
+    """
+    # Get the current date in 'YYYY-MM-DD' format
     date = datetime.today().strftime('%Y-%m-%d')
-    dated_name = str(str(date)+" " + file_name)
+    # Concatenate the date and file name
+    dated_name = str(str(date) + " " + file_name)
     return dated_name
 
 def save_numpy_array(filename, array, folder_path):
-    """Takes in a numpy array and saves it in the specified location
-    with the given name
-    
-    Example:
-    #Save data to the new folder
-    saving_array = np.array([1,2,3]) #Array to be saved
-
-    array = "lunchtime3" #Giving the array a name
-    array_name = date_file(array) #Dating the array name for the file
-
-    #Save the array
-    saved_array_file_path = save_numpy_array(array_name, saving_array, folder_path)
     """
-    
-    name = folder_path+ filename +".npy"
+    Save a NumPy array to a specified location with a given name.
+
+    Parameters:
+    - filename (str): The name to be given to the saved file.
+    - array (numpy.ndarray): The NumPy array to be saved.
+    - folder_path (str): The path to the folder where the array will be saved.
+
+    Returns:
+    - str: The absolute file path of the saved NumPy array.
+    """
+    # Construct the absolute file path
+    name = folder_path + filename + ".npy"
+    # Open the file in binary write mode and save the array
     with open(name, mode="wb") as f:
-        np.save(f,array)
+        np.save(f, array)
     return name
 
-def make_directory(folder_name, folder_path, topdir = "../../"):
-    """Create a folder in a specified location and returns the path of that folder
-
-    topdir is the path to the uppermost directory needed to view the full project.
-    
-    To make a directory and find the folder path, use the following example:
-    new_folder_absolute_path = "Data/"
-    new_folder_name = "new folder"
-    make_directory(new_folder_name,new_folder_absolute_path, topdir)
-    folder_path = topdir+new_folder_absolute_path+new_folder_name+"/"
+def make_directory(folder_name, folder_path, topdir="../../"):
     """
-    path = topdir+folder_path+folder_name
+    Create a folder in a specified location and return its path.
 
+    Parameters:
+    - folder_name (str): The name of the new folder.
+    - folder_path (str): The path where the new folder will be created.
+    - topdir (str, optional): The path to the uppermost directory needed to view the full project.
+
+    Returns:
+    - str: The absolute path of the created folder.
+    """
+    # Construct the absolute path of the new folder
+    path = topdir + folder_path + folder_name
+    # Create the folder if it doesn't exist
     os.makedirs(path, exist_ok=True)
-    return  path+"/"
+    return path + "/"
 
 def load_numpy_array(array_file_path):
-    """Load a specified numpy array, returns the data contained in the array.
-    
-    Example:    
-    b = load_numpy_array(saved_array_file_path), where saved_array_file_path 
-    defined in save_numpy_array function example.
     """
-    data = np.load(array_file_path, allow_pickle = True)
+    Load a specified NumPy array and return the data contained in the array.
+
+    Parameters:
+    - array_file_path (str): The absolute path of the NumPy array file.
+
+    Returns:
+    - numpy.ndarray: The data contained in the loaded NumPy array.
+    """
+    # Load the NumPy array from the specified file path
+    data = np.load(array_file_path, allow_pickle=True)
     return data
 
 def delete_file(file_path):
     """
-    Deletes the file in the filepath mentioned
-    
-    Example:
-    delete_file(saved_array_file_path)
+    Delete a file at the specified file path.
+
+    Parameters:
+    - file_path (str): The absolute path of the file to be deleted.
     """
+    # Check if the file exists before attempting to delete
     if os.path.exists(file_path):
         os.remove(file_path)
     return

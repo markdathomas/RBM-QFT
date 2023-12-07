@@ -8,7 +8,7 @@ alpha_ratio = 2             #Inverse of common ratio of alpha values used
 N_repeats = 1               #Number of times each alpha value is run.
 m_visible = 9               #Number of lattice sites.
 n_hidden = 9                #Number of hidden nodes used
-batch_size = 2            #Number of data points used in each training set.    
+batch_size = 2              #Number of data points used in each training set.    
 steps_per_epoch = 3*10**0   #Number of steps performed in each training epoch.
 
 

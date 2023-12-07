@@ -6,10 +6,10 @@ number_of_epochs = 4        #Number of different alpha values used. (Alpha = lea
 initial_alpha = 1           #The first alpha value used.
 alpha_ratio = 2             #Inverse of common ratio of alpha values used 
 N_repeats = 1               #Number of times each alpha value is run.
-m_visible = 9               #Number of lattice sites.
-n_hidden = 9                #Number of hidden nodes used
+m_visible = 4               #Number of lattice sites. 
+n_hidden = 4                #Number of hidden nodes used
 batch_size = 2              #Number of data points used in each training set.    
-steps_per_epoch = 3*10**0   #Number of steps performed in each training epoch.
+steps_per_epoch = 3*10**2   #Number of steps performed in each training epoch.
 
 
 #%% Ignore this:

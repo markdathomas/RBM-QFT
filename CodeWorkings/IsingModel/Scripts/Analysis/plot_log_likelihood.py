@@ -24,6 +24,28 @@ Analysis_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'A
 sys.path.append(Analysis_path)
 from file_restructure import load_numpy_array
 
+def generate_pastel_colors(num_colors, alpha=0.5):
+    base_colors = [(0.8, 0.6, 0.6), (0.6, 0.8, 0.8), (0.6, 0.8, 0.6), (0.8, 0.6, 0.8), (0.8, 0.8, 0.6)]
+    return [color + (alpha,) for color in base_colors[:num_colors]]
+
+def plot_shaded_regions(alpha_list, step_size_list):
+    pastel_colors = generate_pastel_colors(len(alpha_list))
+    
+    for i, (alpha, step_size) in enumerate(zip(alpha_list, step_size_list)):
+        x_value = i * step_size
+        plt.axvline(x=x_value, color='black', linestyle='dotted')
+
+        # Get the pastel color by cycling through the pastel_colors using modulo
+        color = pastel_colors[i % len(pastel_colors)]
+
+        plt.fill_betweenx(
+            np.linspace(1, -5, 100), x_value, (i + 1) * step_size,
+            color=color, label=f'$\\alpha = {alpha}$'
+        )
+
+
+    # If you want to include a last dotted line without shading, uncomment the next line
+    # plt.axvline(x=(len(alpha_list) - 1) * step_size, color='black', linestyle='dotted')
 
 def generate_loglik_plot(topdir, data_params, data_date, folder_date, data_name):
     """
@@ -80,29 +102,15 @@ def generate_loglik_plot(topdir, data_params, data_date, folder_date, data_name)
     plt.xlabel("Epoch number", fontsize=30)
     plt.ylabel(r'$\mathcal{L}\left(\theta |S \right)$', fontsize=30)
 
-    # Define pastel colors and alpha values
-    pastel_colors = [(0.8, 0.6, 0.6, 0.5), (0.6, 0.8, 0.8, 0.5), (0.6, 0.8, 0.6, 0.5), (0.8, 0.6, 0.8, 0.5), (0.8, 0.8, 0.6, 0.5)]
-    alpha_list = [0.2, 0.1, 0.05, 0.025, 0.0125]
+    # Plot shaded regions
+    plot_shaded_regions(run_parameters[3], run_parameters[0])
 
-    # Create vertical dotted lines and shaded regions
-    for i in range(0, 4):
-        x_value = i * 3000
-        plt.axvline(x=x_value, color='black', linestyle='dotted')
-
-        # Shade the region between vertical lines with pastel colors
-        if i < 4:
-            plt.fill_betweenx(
-            np.linspace(1, -5, 100), x_value, (i + 1) * 3000,
-            color=pastel_colors[i], label=f'$\\alpha = {alpha_list[i]}$'
-        )
-
-    plt.xlim(0, 12000)  # Set x-axis limits
-    plt.ylim(-4.5, -1)   # Set y-axis limits
+    #plt.xlim(0, 12000)  # Set x-axis limits
+    #plt.ylim(-4.5, -1)   # Set y-axis limits
     plt.legend(loc='lower right', fontsize=14)
     plt.savefig(plot_file_path)
     plt.show()
     return
-
 
 # Example usage:
 # topdir = ""  # "../../"

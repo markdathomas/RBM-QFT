@@ -13,6 +13,7 @@ Created on Tue Nov 23 23:58:48 2021
 import os
 import sys
 import matplotlib.pyplot as plt
+from tabulate import tabulate
 
 # Get the path to the DataGeneration folder
 Data_generation_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'DataGeneration'))
@@ -145,7 +146,7 @@ def generate_config_plot(topdir, data_params, data_date, folder_date, data_name,
 def repeat_elements(arr, N):
     return [elem for elem in arr for _ in range(N)]
 
-def run_and_plot(m_visible, n_hidden, alpha_size_list, batch_size, N_repeats, steps_per_epoch):
+def run_and_plot(m_visible, n_hidden, initial_alpha, alpha_ratio, batch_size, N_repeats, steps_per_epoch, double_first_epoch, number_of_epochs):
     """
     Run the model and generate log likelihood plot and learned distribution plot.
 
@@ -160,13 +161,32 @@ def run_and_plot(m_visible, n_hidden, alpha_size_list, batch_size, N_repeats, st
     Returns:
     - None
     """
-
+    alpha_size_list = [initial_alpha*alpha_ratio**(-i) for i in range(number_of_epochs)]
+    if double_first_epoch:
+        alpha_size_list= [alpha_size_list[0]] + alpha_size_list
     # Repeat alpha values N_repeats times
     alpha_list = repeat_elements(alpha_size_list, N_repeats)
     
     # Set step size and k steps lists
     step_size_list = [int(steps_per_epoch) for i in range(len(alpha_list))]
     k_steps_list = [1 for i in range(len(step_size_list))]
+
+
+
+    table = [
+        ["Number of Ising configurations possible:", "2 ** "+str(m_visible)+" = "+str(2**m_visible)],
+        ["Number of Ising configurations seen:", number_of_epochs*N_repeats*batch_size*steps_per_epoch],
+        ["Percentage of possible configurations seen: ", str(100*(number_of_epochs*N_repeats*batch_size*steps_per_epoch)/(2**m_visible))+"%"],
+        ["Step Size: " + str(step_size_list), "Alpha Size: " +str(alpha_size_list)],
+    ]
+
+    # Print the formatted table
+    print()
+    print("Training run details")
+    print(tabulate(table, headers="firstrow", tablefmt="grid"))
+    print("Waiting for " + str((int(double_first_epoch)+number_of_epochs)*N_repeats) +  " epochs to run. Please wait for "+str(2*((int(double_first_epoch)+number_of_epochs)*N_repeats))+ " loading bars to fill." )
+    print()
+
     
     # Run the model and get the output location
     output_location = run(step_size_list, m_visible, n_hidden, alpha_list, k_steps_list, batch_size)

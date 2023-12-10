@@ -29,7 +29,7 @@ To customize the behavior of the simulation and RBM training, you can edit the f
 - `n_hidden`: Number of hidden nodes used.
 - `batch_size`: Number of data points used in each training set.
 - `steps_per_epoch`: Number of steps performed in each training epoch.
-
+- `double_first_epoch`: Whether or not to perform the first training epoch twice. 
 
 # For example:
 - `number_of_epochs` = 4
@@ -40,7 +40,7 @@ To customize the behavior of the simulation and RBM training, you can edit the f
 - `n_hidden` = 6
 - `batch_size` = 200
 - `steps_per_epoch` = 3*10**3
-
+- `double_first_epoch` = True
 
 
 The generated data and plots will be saved in folders with the date the file was generated and the run parameters used.

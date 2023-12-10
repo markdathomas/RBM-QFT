@@ -129,10 +129,10 @@ def generate_config_plot(topdir, data_params, data_date, folder_date, data_name,
     
     # Plot each distribution with different alpha values
     for i in range(len(pvgt_list)):
-        if i % repeats == 0:
+        #if i % repeats == 0:
             plt.plot(config_number_list, pvgt_list[i], label=r'$\alpha$ = '+str(alpha_list[i]))
-        else:
-            plt.plot(config_number_list, pvgt_list[i])
+        #else:
+        #    plt.plot(config_number_list, pvgt_list[i])
     
     # Plot the true distribution as a dotted line
     plt.plot(config_number_list, correct_distribution[1], label=r'True distribution', linestyle='dotted')
@@ -157,6 +157,8 @@ def run_and_plot(m_visible, n_hidden, initial_alpha, alpha_ratio, batch_size, N_
     - batch_size: Size of each batch
     - N_repeats: Number of repeats
     - steps_per_epoch: Steps per epoch
+    - double_first_epoch: Whether to repeat the first alpha value one time
+    - number_of_epochs: Total number of epochs
 
     Returns:
     - None
